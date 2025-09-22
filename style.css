@@ -1,0 +1,116 @@
+:root {
+  --bg: #ffffff;         /* arka plan */
+  --ink: #0f172a;        /* metin rengi */
+  --muted: #94a3b8;      /* çizgi/yardımcı */
+  --accent: #2563eb;     /* buton/odak */
+  --node-bg: #f8fafc;    /* düğüm kutusu */
+}
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font: 14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--ink);
+  background: var(--bg);
+}
+
+header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+
+header h1 { font-size: 16px; margin: 0; font-weight: 600; }
+
+.controls { display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+button {
+  cursor: pointer; border: 1px solid #cbd5e1; background: #fff; color: var(--ink);
+  padding: 6px 10px; border-radius: 8px; font-weight: 600;
+}
+button:hover { border-color: var(--accent); }
+
+.zoom { width: 120px; }
+
+/* Tuval ve sürükle-zoom davranışı */
+.viewport {
+  height: calc(100% - 57px);
+  position: relative; overflow: hidden;
+  background:
+    repeating-linear-gradient(90deg, #f8fafc 0 40px, #ffffff 40px 80px),
+    repeating-linear-gradient(0deg, #f8fafc 0 40px, #ffffff 40px 80px);
+}
+
+.canvas { position: absolute; top: 50%; left: 50%; transform-origin: 0 0; }
+
+/* Ağaç düzeni: dikey doğrultuda; her kuşak altta */
+.tree { --vspace: 24px; --hspace: 16px; --boxw: 80px; --boxpad: 6px 8px; }
+.tree, .children { list-style: none; margin: 0; padding-left: 0; }
+
+.node { display: inline-block; text-align: center; }
+
+/* details/summary tabanlı collapsible düğümler */
+details.node { padding: 0; }
+details > summary {
+  list-style: none; cursor: pointer; user-select: none; outline: none; display: inline-block;
+}
+details > summary::-webkit-details-marker { display: none; }
+
+/* Kutular */
+.box {
+  display: inline-block; min-width: var(--boxw); background: var(--node-bg);
+  border: 1px solid #e2e8f0; border-radius: 8px; padding: var(--boxpad);
+  box-shadow: 0 1px 0 rgba(15,23,42,.04);
+}
+.name { font-weight: 700; }
+.note { color: #475569; font-size: 12px; }
+
+/* Bağlantı çizgileri (CSS çizgileri) */
+.branch {
+  position: relative; display: inline-block; margin: var(--vspace) var(--hspace);
+}
+.branch::before {
+  /* ebeveynden aşağı inen dikey çizgi */
+  content: ""; position: absolute; top: -35px; left: 50%;
+  width: 1px; height: 35px; background: var(--muted);
+}
+
+/* Kardeşleri bağlayan yatay çizgi */
+.children {
+  display: flex; justify-content: center; gap: calc(var(--hspace) * 1.2);
+  position: relative; padding-top: 14px;
+}
+.children::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; margin: 0 auto;
+  height: 1px; background: var(--muted);
+  width: calc(100% - var(--boxw)/2);
+}
+
+/* Kök: yukarıdaki dikey çizgiyi gizle; yatay çizgiyi GİZLEME */
+.root > .branch::before { display: none; }
+
+/* Kökten aşağı inen kısa dikey çizgi (yatay root çizgisine ulaşsın) */
+details.node.root > summary { position: relative; }
+details.node.root > summary::after {
+  content: "";
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  top: 100%;
+  width: 1px;
+  height: 14px; /* .children { padding-top: 14px } ile eşit tutulmalı */
+  background: var(--muted);
+}
+
+/* Odak/erişilebilirlik */
+.box:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Baskı modu: tüm düğümleri aç, arka plan sade, sayfaya sığdırma */
+@media print {
+  header { display: none; }
+  .viewport { height: auto; overflow: visible; background: #fff; }
+  details[open] > summary, details > summary { }
+  details { open: open; }
+  .canvas { position: static; transform: none !important; }
+  .tree { --vspace: 16px; --hspace: 10px; --boxw: 140px; }
+}

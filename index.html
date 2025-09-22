@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Collapsible Family Tree</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Collapsible Family Tree</h1>
+    <div class="controls">
+      <button id="expand">Tümünü Aç</button>
+      <button id="collapse">Tümünü Kapat</button>
+      <label>Yakınlaştırma <input id="zoom" class="zoom" type="range" min="30" max="160" value="90"></label>
+      <button id="fit">Ortala</button>
+    </div>
+  </header>
+
+  <div class="viewport" id="viewport">
+    <div class="canvas" id="canvas">
+      <!-- Ağaç burada üretilecek -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
