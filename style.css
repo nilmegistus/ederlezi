@@ -1,9 +1,9 @@
 :root {
-  --bg: #ffffff;         /* arka plan */
-  --ink: #0f172a;        /* metin rengi */
-  --muted: #94a3b8;      /* çizgi/yardımcı */
-  --accent: #2563eb;     /* buton/odak */
-  --node-bg: #f8fafc;    /* düğüm kutusu */
+  --bg: #ffffff;
+  --ink: #0f172a;
+  --muted: #94a3b8;
+  --accent: #2563eb;     
+  --node-bg: #f8fafc;
 }
 
 html, body { height: 100%; }
@@ -44,20 +44,17 @@ button:hover { border-color: var(--accent); }
 
 .canvas { position: absolute; top: 50%; left: 50%; transform-origin: 0 0; }
 
-/* Ağaç düzeni: dikey doğrultuda; her kuşak altta */
 .tree { --vspace: 24px; --hspace: 16px; --boxw: 80px; --boxpad: 6px 8px; }
 .tree, .children { list-style: none; margin: 0; padding-left: 0; }
 
 .node { display: inline-block; text-align: center; }
 
-/* details/summary tabanlı collapsible düğümler */
 details.node { padding: 0; }
 details > summary {
   list-style: none; cursor: pointer; user-select: none; outline: none; display: inline-block;
 }
 details > summary::-webkit-details-marker { display: none; }
 
-/* Kutular */
 .box {
   display: inline-block; min-width: var(--boxw); background: var(--node-bg);
   border: 1px solid #e2e8f0; border-radius: 8px; padding: var(--boxpad);
@@ -66,17 +63,14 @@ details > summary::-webkit-details-marker { display: none; }
 .name { font-weight: 700; }
 .note { color: #475569; font-size: 12px; }
 
-/* Bağlantı çizgileri (CSS çizgileri) */
 .branch {
   position: relative; display: inline-block; margin: var(--vspace) var(--hspace);
 }
 .branch::before {
-  /* ebeveynden aşağı inen dikey çizgi */
   content: ""; position: absolute; top: -35px; left: 50%;
   width: 1px; height: 35px; background: var(--muted);
 }
 
-/* Kardeşleri bağlayan yatay çizgi */
 .children {
   display: flex; justify-content: center; gap: calc(var(--hspace) * 1.2);
   position: relative; padding-top: 14px;
@@ -87,10 +81,8 @@ details > summary::-webkit-details-marker { display: none; }
   width: calc(100% - var(--boxw)/2);
 }
 
-/* Kök: yukarıdaki dikey çizgiyi gizle; yatay çizgiyi GİZLEME */
 .root > .branch::before { display: none; }
 
-/* Kökten aşağı inen kısa dikey çizgi (yatay root çizgisine ulaşsın) */
 details.node.root > summary { position: relative; }
 details.node.root > summary::after {
   content: "";
@@ -98,14 +90,12 @@ details.node.root > summary::after {
   left: 50%; transform: translateX(-50%);
   top: 100%;
   width: 1px;
-  height: 14px; /* .children { padding-top: 14px } ile eşit tutulmalı */
+  height: 14px; /* .children { padding-top: 14px }  */
   background: var(--muted);
 }
 
-/* Odak/erişilebilirlik */
 .box:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* Baskı modu: tüm düğümleri aç, arka plan sade, sayfaya sığdırma */
 @media print {
   header { display: none; }
   .viewport { height: auto; overflow: visible; background: #fff; }
