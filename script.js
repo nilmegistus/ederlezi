@@ -1,5 +1,3 @@
-// Örnek veri: nested JSON. İstediğin ad/soyad yapısıyla değiştir.
-// Her node: { name: "Ad Soyad", note: "Ek bilgi", children: [...] }
 const data = { 
   name: "Arslan Ahıskalı", note: "Yıldız Ahıskalı",
   children: [
@@ -67,7 +65,7 @@ const data = {
 };
 
 
-// Ağaç render: details/summary ile dependency-free collapsible
+// render: details/summary with dependency-free collapsible
 function el(tag, attrs = {}, ...kids) {
   const n = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {
@@ -142,7 +140,7 @@ window.addEventListener('mousemove', (e) => {
 });
 
 viewport.addEventListener('wheel', (e) => {
-  if (!e.ctrlKey) return; // Ctrl + wheel ile zoom; normal wheel sayfayı kaydırsın
+  if (!e.ctrlKey) return; // Ctrl + wheel ile zoom
   e.preventDefault();
   const delta = e.deltaY > 0 ? -0.05 : 0.05;
   scale = Math.min(1.6, Math.max(0.3, scale + delta));
@@ -170,7 +168,7 @@ document.getElementById('collapse').addEventListener('click', () =>
   document.querySelectorAll('details.node').forEach((d, i) => d.open = i === 0)
 );
 
-// Klavye erişimi: Enter/Space ile aç-kapa
+// Keyboard access
 document.addEventListener('keydown', (e) => {
   if ((e.key === 'Enter' || e.key === ' ') && document.activeElement.closest('.box')) {
     e.preventDefault();
